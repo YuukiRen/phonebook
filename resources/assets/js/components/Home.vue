@@ -5,7 +5,7 @@
         repositories
 
         <button class="button is-link is-outlined" @click="openAdd">
-          reset all filters
+          Create new Data
         </button>
       </p>
 
