@@ -45,7 +45,7 @@ class PhonebookController extends Controller
         $dt->phone = $request->phone;
         $dt->email = $request->email;
         $dt->save();
-        return $request->all();
+        return $dt;
     }
 
     /**
@@ -77,9 +77,15 @@ class PhonebookController extends Controller
      * @param  \App\Phonebook  $phonebook
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Phonebook $phonebook)
+    public function update(PhonebookRequest $request)
     {
-        //
+
+        $dt = Phonebook::find($request->id);
+        $dt->name = $request->name;
+        $dt->phone = $request->phone;
+        $dt->email = $request->email;
+        $dt->save();
+        return $request->all();
     }
 
     /**
@@ -90,6 +96,6 @@ class PhonebookController extends Controller
      */
     public function destroy(Phonebook $phonebook)
     {
-        //
+        Phonebook::where('id',$phonebook->id)->delete();
     }
 }

@@ -36,8 +36,5 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     router,
-    components:{Myheader,Myfooter} ,
-    created(){
-    	console.log('Hello World')
-    }
+    components:{Myheader,Myfooter}
 });
