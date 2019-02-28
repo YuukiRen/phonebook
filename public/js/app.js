@@ -47321,8 +47321,19 @@ var Add = __webpack_require__(47);
   components: { Add: Add },
   data: function data() {
     return {
-      addActive: ''
+      addActive: '',
+      lists: {},
+      errors: {}
     };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.post('/getData').then(function (response) {
+      return _this.lists = response.data;
+    }).catch(function (error) {
+      return _this.errors = error.response.data.errors;
+    });
   },
 
   methods: {
@@ -47426,6 +47437,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['openmodal'],
@@ -47435,7 +47449,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				name: '',
 				email: '',
 				phone: ''
-			}
+			},
+			errors: {}
 		};
 	},
 
@@ -47449,7 +47464,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			axios.post('/phonebook', this.$data.list).then(function (response) {
 				return _this.close();
 			}).catch(function (error) {
-				return console.log(error);
+				return _this.errors = error.response.data.errors;
 			});
 		}
 	}
@@ -47492,6 +47507,7 @@ var render = function() {
                 }
               ],
               staticClass: "input",
+              class: { "is-danger": _vm.errors.name },
               attrs: { type: "text", placeholder: "Nama" },
               domProps: { value: _vm.list.name },
               on: {
@@ -47503,7 +47519,13 @@ var render = function() {
                 }
               }
             })
-          ])
+          ]),
+          _vm._v(" "),
+          _vm.errors.name
+            ? _c("small", { staticClass: "has-text-danger" }, [
+                _vm._v(_vm._s(_vm.errors.name[0]))
+              ])
+            : _vm._e()
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "field" }, [
@@ -47520,6 +47542,7 @@ var render = function() {
                 }
               ],
               staticClass: "input",
+              class: { "is-danger": _vm.errors.email },
               attrs: { type: "text", placeholder: "Email" },
               domProps: { value: _vm.list.email },
               on: {
@@ -47531,7 +47554,13 @@ var render = function() {
                 }
               }
             })
-          ])
+          ]),
+          _vm._v(" "),
+          _vm.errors.email
+            ? _c("small", { staticClass: "has-text-danger" }, [
+                _vm._v(_vm._s(_vm.errors.email[0]))
+              ])
+            : _vm._e()
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "field" }, [
@@ -47548,6 +47577,7 @@ var render = function() {
                 }
               ],
               staticClass: "input",
+              class: { "is-danger": _vm.errors.phone },
               attrs: { type: "text", placeholder: "Phone" },
               domProps: { value: _vm.list.phone },
               on: {
@@ -47559,7 +47589,13 @@ var render = function() {
                 }
               }
             })
-          ])
+          ]),
+          _vm._v(" "),
+          _vm.errors.phone
+            ? _c("small", { staticClass: "has-text-danger" }, [
+                _vm._v(_vm._s(_vm.errors.phone[0]))
+              ])
+            : _vm._e()
         ])
       ]),
       _vm._v(" "),
@@ -47598,23 +47634,33 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("nav", { staticClass: "panel" }, [
-        _c("p", { staticClass: "panel-heading" }, [
-          _vm._v("\n      repositories\n\n      "),
-          _c(
-            "button",
-            {
-              staticClass: "button is-link is-outlined",
-              on: { click: _vm.openAdd }
-            },
-            [_vm._v("\n        Create new Data\n      ")]
-          )
-        ]),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _vm._m(1)
-      ]),
+      _c(
+        "nav",
+        { staticClass: "panel" },
+        [
+          _c("p", { staticClass: "panel-heading" }, [
+            _vm._v("\n      repositories\n\n      "),
+            _c(
+              "button",
+              {
+                staticClass: "button is-link is-outlined",
+                on: { click: _vm.openAdd }
+              },
+              [_vm._v("\n        Create new Data\n      ")]
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._l(_vm.lists, function(item, key) {
+            return _c("a", { staticClass: "panel-block" }, [
+              _vm._m(1, true),
+              _vm._v("\n      " + _vm._s(item.name) + "\n    ")
+            ])
+          })
+        ],
+        2
+      ),
       _vm._v(" "),
       _c("Add", {
         attrs: { openmodal: _vm.addActive },
@@ -47649,14 +47695,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "panel-block" }, [
-      _c("span", { staticClass: "panel-icon" }, [
-        _c("i", {
-          staticClass: "fas fa-book",
-          attrs: { "aria-hidden": "true" }
-        })
-      ]),
-      _vm._v("\n      marksheet\n    ")
+    return _c("span", { staticClass: "panel-icon" }, [
+      _c("i", { staticClass: "fas fa-book", attrs: { "aria-hidden": "true" } })
     ])
   }
 ]

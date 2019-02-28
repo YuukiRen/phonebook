@@ -17,11 +17,11 @@
           </span>
         </p>
       </div>
-      <a class="panel-block">
+      <a class="panel-block" v-for="item,key in lists">
         <span class="panel-icon">
           <i class="fas fa-book" aria-hidden="true"></i>
         </span>
-        marksheet
+        {{item.name}}
       </a>
     </nav>  
   <Add :openmodal='addActive' @closeRequest='close'></Add>
@@ -36,8 +36,15 @@ let Add = require('./Add.vue');
     components:{Add},
     data(){
       return{
-        addActive : ''
+        addActive : '',
+        lists:{},
+        errors:{}
       }
+    },
+    created(){
+        axios.post('/getData')
+        .then((response)=>this.lists = response.data)
+        .catch((error) => this.errors = error.response.data.errors)
     },
     methods:{  
       openAdd(){

@@ -13,7 +13,7 @@ class PhonebookRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class PhonebookRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'=>'required|max:255',
+            'phone'=>'required|max:10|numeric',
+            'email'=>'required|email|unique:phonebooks',
+            
         ];
     }
 }

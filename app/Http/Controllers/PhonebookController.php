@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Phonebook;
 use Illuminate\Http\Request;
+use App\Http\Requests\PhonebookRequest;
 
 class PhonebookController extends Controller
 {
@@ -15,6 +16,10 @@ class PhonebookController extends Controller
     public function index()
     {
         return view('phonebook');
+    }
+    public function getData()
+    {
+        return Phonebook::orderBy('name','DESC')->get();
     }
 
     /**
@@ -33,7 +38,7 @@ class PhonebookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PhonebookRequest $request)
     {
         $dt = new Phonebook;
         $dt->name = $request->name;
