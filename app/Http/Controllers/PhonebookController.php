@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Phonebook;
 use Illuminate\Http\Request;
+use App\Http\Requests\PhonebookRequest;
 
 class PhonebookController extends Controller
 {
@@ -15,6 +16,10 @@ class PhonebookController extends Controller
     public function index()
     {
         return view('phonebook');
+    }
+    public function getData()
+    {
+        return Phonebook::orderBy('name','DESC')->get();
     }
 
     /**
@@ -33,9 +38,14 @@ class PhonebookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PhonebookRequest $request)
     {
-        return $request->all();
+        $dt = new Phonebook;
+        $dt->name = $request->name;
+        $dt->phone = $request->phone;
+        $dt->email = $request->email;
+        $dt->save();
+        return $dt;
     }
 
     /**
@@ -67,9 +77,15 @@ class PhonebookController extends Controller
      * @param  \App\Phonebook  $phonebook
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Phonebook $phonebook)
+    public function update(PhonebookRequest $request)
     {
-        //
+
+        $dt = Phonebook::find($request->id);
+        $dt->name = $request->name;
+        $dt->phone = $request->phone;
+        $dt->email = $request->email;
+        $dt->save();
+        return $request->all();
     }
 
     /**
@@ -80,6 +96,6 @@ class PhonebookController extends Controller
      */
     public function destroy(Phonebook $phonebook)
     {
-        //
+        Phonebook::where('id',$phonebook->id)->delete();
     }
 }
